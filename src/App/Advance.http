@@ -1,0 +1,41 @@
+
+#  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZDNmM2IyOS02ZWYzLTQwMjEtODExZS1kMGI0YjRmMzM0YzYiLCJpYXQiOjE3MDgzNTMyMjAsImV4cCI6MTcwODQzOTYyMH0.he7WkRRaQWw9bQXZ-gpaG508faXe1QkW1DGSmERHtjQ
+////////////////////////////////////////////////////////////////////////////////////////
+### POsts 
+### create a post
+POST http://localhost:8800/api/advance
+Content-Type: application/json
+# Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{    
+  "EmployeeID": 2,
+  "Date": "2020-01-10",
+  "Amount": 1000.0  
+}
+
+### updating a single post
+PUT http://localhost:8800/api/posts/update/05227124-61ee-470f-b683-57effec2e25d
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{
+     "Content": "I am loving this" ,
+    "Likes": 5,
+    "Comments": 6
+}
+
+
+### Fetching/getting all posts
+GET http://localhost:8800/api/posts
+
+
+
+### Fetching/getting single post
+GET http://localhost:8800/api/posts/single/05227124-61ee-470f-b683-57effec2e25d
+
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+### Deleting a single post
+DELETE  http://localhost:8800/api/posts/delete/05227124-61ee-470f-b683-57effec2e25d
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+

@@ -1,0 +1,63 @@
+### get all by id 
+### //create Create
+POST http://localhost:8800/api/employee
+content-Type: application/json
+
+{
+   "FirstName": "Kelvin",
+    "LastName": "Nyambura",
+    "Address": "789 Oak Street, Anytown,Kenya",
+    "DOB": "1999-11-10",
+    "Email": "kwakaba06@gmail.com",
+    "Gender": "male",
+    "Position": "Software Engineer",
+    "PhoneNo": "+254705957079",
+    "Password": "Kelvin1234",
+    "Schedule": "Monday to Friday, 8:00 AM - 5:00 PM",
+    "PhotoURL": "https://example.com/leahnyambura.jpg"
+   
+}
+### //login user
+POST http://localhost:8800/api/employee/auth/login
+content-Type: application/json
+
+
+{
+    "Email": "michaeljohnson@example.com",
+    "Password" : "mike1234"
+}
+
+//send mail
+###
+GET http://localhost:8800/send-mail
+
+
+//Get all Users
+###
+GET http://localhost:8800/api/employee
+
+### //get Users by id
+GET http://localhost:8800/api/employee/1
+#  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZDNmM2IyOS02ZWYzLTQwMjEtODExZS1kMGI0YjRmMzM0YzYiLCJpYXQiOjE3MDgzNTMyMjAsImV4cCI6MTcwODQzOTYyMH0.he7WkRRaQWw9bQXZ-gpaG508faXe1QkW1DGSmERHtjQ
+
+### //update users
+PUT http://localhost:8800/api/employee/2
+Content-Type: application/json
+# Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZDNmM2IyOS02ZWYzLTQwMjEtODExZS1kMGI0YjRmMzM0YzYiLCJpYXQiOjE3MDgzNTMyMjAsImV4cCI6MTcwODQzOTYyMH0.he7WkRRaQWw9bQXZ-gpaG508faXe1QkW1DGSmERHtjQ
+
+{
+ "FirstName": "Michael",
+    "LastName": "Johnson",
+    "Address": "789 Oak Street, Anytown, USA",
+    "DOB": "1978-11-10",
+    "Email": "michaeljohnson@example.com",
+    "Gender": "Male",
+    "Position": "Sales Representative",
+    "PhoneNo": "+1122334455",
+    "Password": "mike1234",
+    "Schedule": "Monday to Friday, 9:00 AM - 6:00 PM",
+    "PhotoURL": "https://example.com/michaeljohnson.jpg"
+     
+}
+### //delete Users
+DELETE http://localhost:8800/api/employee/1

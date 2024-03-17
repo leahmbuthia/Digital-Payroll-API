@@ -1,0 +1,259 @@
+
+#  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZDNmM2IyOS02ZWYzLTQwMjEtODExZS1kMGI0YjRmMzM0YzYiLCJpYXQiOjE3MDgzNTMyMjAsImV4cCI6MTcwODQzOTYyMH0.he7WkRRaQWw9bQXZ-gpaG508faXe1QkW1DGSmERHtjQ
+////////////////////////////////////////////////////////////////////////////////////////
+### POsts 
+### create a post
+POST http://localhost:8800/api/advance
+Content-Type: application/json
+# Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{    
+  "EmployeeID": 2,
+  "Date": "2020-01-10",
+  "Amount": 1000.0  
+}
+
+### updating a single post
+PUT http://localhost:8800/api/posts/update/05227124-61ee-470f-b683-57effec2e25d
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{
+     "Content": "I am loving this" ,
+    "Likes": 5,
+    "Comments": 6
+}
+
+
+### Fetching/getting all posts
+GET http://localhost:8800/api/posts
+
+
+
+### Fetching/getting single post
+GET http://localhost:8800/api/posts/single/05227124-61ee-470f-b683-57effec2e25d
+
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+### Deleting a single post
+DELETE  http://localhost:8800/api/posts/delete/05227124-61ee-470f-b683-57effec2e25d
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+#####
+### //get all Photos
+GET http://localhost:8800/api/photos
+
+### // create a new comment
+POST http://localhost:8800/api/photos
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{ 
+    "UserID": "1",
+    "PhotoURL": "/hello lear",
+    "UploadDate": "2024-40-02"
+}
+
+
+### // delete a comment
+DELETE http://localhost:8800/api/photos/2112ca89-d655-4b96-815a-b161645e229c
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+### //get a comment by its id 
+GET http://localhost:8800/api/photos/2
+
+### // update a comment by id
+PUT http://localhost:8800/api/photos/2
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{
+   "UserID": "1",
+   "PhotoURL": "hrtuhjbcdn",
+   "UploadDate": "2023-01-15"
+}
+//////////////////////////////////////////////////////////////////////////////////////////////
+### create amessages
+POST http://localhost:8800/api/messages
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{
+    
+    "SenderID": "1" ,
+    "ReceiverID": "2",
+    "MessageDate":"2023-01-15",
+    "Content":"leah sleep"
+  
+}
+
+### updating a single messages
+PUT http://localhost:8800/api/messages/39778125-982f-4888-88b2-634c769e65de
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{
+     "Content": "I am loving this" ,
+    "Likes": 5,
+    "Comments": 6
+}
+
+
+### Fetching/getting all messages
+GET http://localhost:8800/api/messages
+
+### Fetching/getting single messages
+GET http://localhost:8800/api/messages/39778125-982f-4888-88b2-634c769e65de
+
+
+
+### Deleting a single messages
+DELETE  http://localhost:8800/api/messages/39778125-982f-4888-88b2-634c769e65de
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+#####
+### //get all comments
+GET http://localhost:8800/api/comments
+
+### create a comment
+POST http://localhost:8800/api/comments
+Content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{
+    "UserID": "1" ,
+    "PostID": "2" ,
+    "Content": "What a gooood day" 
+}
+### // delete a comment
+DELETE http://localhost:8800/api/comments/1
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+
+### //get a comment by its id 
+//-------------get a comment for a certain user
+GET http://localhost:8800/api/comments
+
+
+### // update a comment by id
+PUT http://localhost:8800/api/comments/3
+content-Type: application/json
+Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{
+      "Content": "just another comment333 from leah"  
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+### create a friendship
+POST http://localhost:8800/api/friends
+Content-Type: application/json
+
+{
+    
+    "User1ID": "1" ,
+    "User2ID": "05227124-61ee-470f-b683-57effec2e25d"
+   
+  
+}
+
+### updating a single friends
+PUT http://localhost:8800/api/friends/2
+Content-Type: application/json
+
+{
+     "User1ID": "2" ,
+    "User2ID": "1",
+    "FriendshipDate": "2024-02-16T00:48:49.790Z"
+}
+
+
+### Fetching/getting all friends
+GET http://localhost:8800/api/friends
+
+
+
+### Fetching/getting single friends
+GET http://localhost:8800/api/friends/3fcf3d2c-55b0-42a2-84d4-42af720599b0
+
+
+
+### Deleting a single friends
+DELETE  http://localhost:8800/api/friends/eb87db99-ca91-459a-8892-ee92cb801609
+#
+///////////////////////////////////////////////////////////////////////////////////////
+
+### EventAttendeee
+POST http://localhost:8800/api/eventAttendees
+Content-Type: application/json
+
+{
+    "EventID": "1731971b-2ca8-4249-aecb-010622037800",
+    "AttendeeID":"07fd58d8-1eea-471e-a624-609f568d490e" 
+}
+
+### updating a single friends
+PUT http://localhost:8800/api/attendees/2
+Content-Type: application/json
+
+{
+     "AttendeeID":"2"
+}
+
+
+### Fetching/getting all friends
+GET http://localhost:8800/api/attendees
+
+
+
+### Fetching/getting single friends
+GET http://localhost:8800/api/attendees/2
+
+
+
+### Deleting a single friends
+DELETE  http://localhost:8800/api/attendees/1
+
+
+###****************************************************************************************************************************************************************************************
+
+
+POST http://localhost:8800/api/members
+Content-Type: application/json
+
+{
+     "GroupID":"2",
+    "MemberID":"3"
+  
+  
+}
+
+### updating a single friends
+PUT http://localhost:8800/api/members/1
+Content-Type: application/json
+
+{
+    "GroupID":"2",
+    "MemberID":"3"
+}
+
+
+### Fetching/getting all friends
+GET http://localhost:8800/api/members
+
+
+
+### Fetching/getting single friends
+GET http://localhost:8800/api/members/2
+
+
+
+### Deleting a single friends
+DELETE  http://localhost:8800/api/members/1

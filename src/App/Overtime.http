@@ -1,0 +1,39 @@
+ ##### Overtime Table
+### //create Events
+POST http://localhost:8800/api/overtime
+content-Type: application/json
+# Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{
+  
+  "EmployeeID": 1002,
+  "Date": "2024-01-10",
+  "Hours": 8,
+  "Minutes": 0,
+  "Rate": 500.5   
+}
+//get all posts
+####
+GET http://localhost:8800/api/overtime
+### //get Group  by id
+GET http://localhost:8800/api/overtime/1
+# Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+
+### //update todo
+PUT http://localhost:8800/api/overtime/1002
+Content-Type: application/json
+# Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
+
+{
+   
+  "EmployeeID": 1002,
+  "Date": "2020-01-10",
+  "Hours": 8,
+  "Minutes": 0,
+  "Rate": 500.0  
+}
+
+
+### //delete Events
+ DELETE http://localhost:8800/api/overtime/1
