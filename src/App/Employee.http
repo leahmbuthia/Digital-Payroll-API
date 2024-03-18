@@ -4,27 +4,28 @@ POST http://localhost:8800/api/employee
 content-Type: application/json
 
 {
-   "FirstName": "Kelvin",
-    "LastName": "Nyambura",
-    "Address": "789 Oak Street, Anytown,Kenya",
-    "DOB": "1999-11-10",
-    "Email": "kwakaba06@gmail.com",
-    "Gender": "male",
-    "Position": "Software Engineer",
-    "PhoneNo": "+254705957079",
-    "Password": "Kelvin1234",
-    "Schedule": "Monday to Friday, 8:00 AM - 5:00 PM",
-    "PhotoURL": "https://example.com/leahnyambura.jpg"
-   
+  "FirstName": "Jane",
+  "LastName": "Smith",
+  "Address": "456 Oak Street, Springfield, USA",
+  "DOB": "1990-08-15",
+  "Email": "janesmith@example.com",
+  "Gender": "female",
+  "Position": "Sales Manager",
+  "PhoneNo": "+1987654321",
+  "Password": "Jane123",
+  "Schedule": "Monday to Friday, 8:00 AM - 5:00 PM",
+  "PhotoURL": "https://example.com/janesmith.jpg",
+  "Role": "admin"
 }
+
 ### //login user
 POST http://localhost:8800/api/employee/auth/login
 content-Type: application/json
 
 
 {
-    "Email": "michaeljohnson@example.com",
-    "Password" : "mike1234"
+    "Email": "leahnyambura682@gmail.com",
+    "Password" : "Kelvin1234"
 }
 
 //send mail
@@ -60,4 +61,4 @@ Content-Type: application/json
      
 }
 ### //delete Users
-DELETE http://localhost:8800/api/employee/1
+DELETE http://localhost:8800/api/employee/7

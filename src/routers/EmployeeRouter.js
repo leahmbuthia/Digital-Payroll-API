@@ -4,7 +4,7 @@ import { authMiddleware } from '../middleware/AuthUserMiddleware.js';
 const EmployeeRouter = Router();
 
 
-EmployeeRouter.post("/employee/auth/login", loginEmployee);
+EmployeeRouter.post("/employee/auth/login",loginEmployee);
 EmployeeRouter.get('/employee', getEmployee);
 EmployeeRouter.post('/employee',createEmployee);
 // EmployeeRouter.put('/employee/:EmployeeID',authMiddleware, updateEmployee);

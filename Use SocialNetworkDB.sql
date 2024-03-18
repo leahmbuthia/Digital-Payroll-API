@@ -13,7 +13,8 @@ CREATE TABLE Employee (
     Position VARCHAR(255),
 	Password VARCHAR(255),
     Schedule VARCHAR(255) NOT NULL,
-    PhotoURL VARCHAR(255)
+    PhotoURL VARCHAR(255),
+    Role VARCHAR(10)
 );
  select * from Employee
  -- Employees table
@@ -28,6 +29,7 @@ CREATE TABLE Attendance (
     TimeOut TIME,
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
+Drop Table Attendance
 -- Insert dummy data
 INSERT INTO Attendance (EmployeeID, Date, TimeIn, TimeOut)
 VALUES
@@ -50,6 +52,7 @@ CREATE TABLE Overtime (
 );
 
 select * from Overtime
+DROP TABLE Overtime
 
 -- Create Friendship Table
 CREATE TABLE AdvanceCash (
@@ -59,6 +62,7 @@ CREATE TABLE AdvanceCash (
     Amount DECIMAL(10,2),
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
+DROP TABLE AdvanceCash
 
 
 -- Create Photo Table
@@ -72,6 +76,7 @@ CREATE TABLE Schedule (
 );
 
 SELECT * FROM Schedule
+DROP TABLE Schedule
 
 -- Create Group Table
 CREATE TABLE Deduction (
@@ -106,6 +111,7 @@ CREATE TABLE Payroll (
     PayrollDate DATE,
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
+DROP TABLE Payroll
 
 
 INSERT INTO Position (PositionID) VALUES

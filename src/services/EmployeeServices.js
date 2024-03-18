@@ -31,7 +31,9 @@ export const addEmployeeService = async (employee) => {
             .input('Password', sql.VarChar, employee.Password)
             .input('Schedule', sql.VarChar, employee.Schedule)
             .input('PhotoURL', sql.VarChar, employee.PhotoURL)
-            .query("USE PAYROLLDB; insert into Employee (FirstName,LastName,Address,DOB, Email,PhoneNo,Gender,Position,Password, Schedule,PhotoURL) values (@FirstName,@LastName,@Address,@DOB,@Email,@PhoneNo,@Gender, @Position,@Password,@Schedule,@PhotoURL)");
+            .input('Role', sql.VarChar, employee.Role)
+            .query("USE PAYROLLDB; INSERT INTO Employee (FirstName, LastName, Address, DOB, Email, PhoneNo, Gender, Position, Password, Schedule, PhotoURL, Role)  VALUES (@FirstName, @LastName, @Address, @DOB, @Email, @PhoneNo, @Gender, @Position, @Password, @Schedule, @PhotoURL, @Role)");
+            
         return result;
     } catch (error) {
         return error;
@@ -48,35 +50,37 @@ export const getEmployeeByEmailService = async (Email) => {
       throw error;
     }
   };
-  export const findByCredentialsService = async (employee) => {
+ export  const findByCredentialsService = async (employee) => {
     try {
-        const userFoundResponse=await poolRequest()
-        .input('Email', sql.VarChar, user.Email)
-        .query('SELECT * FROM Employee WHERE Email=@Email')
-      
-        if(userFoundResponse.recordset[0]){
-          if(await bcrypt.compare(user.Password,userFoundResponse.recordset[0].Password)){
-      
-            let token=jwt.sign({
-            EmployeeID:userFoundResponse.recordset[0].EmployeeID,
-              Password:userFoundResponse.recordset[0].Password,
-              Email:userFoundResponse.recordset[0].Email
-            },process.env.JWT_SECRET,{ expiresIn: "24h" })
+        const employeeFoundResponse = await poolRequest()
+            .input('Email', sql.VarChar, employee.Email)
+            .query('SELECT * FROM Employee WHERE Email=@Email ');
 
-            console.log("Token is",token);
-            const {Password,...employee}=userFoundResponse.recordset[0]
-            return {employee,token:`JWT ${token}`}
-      
-          }else{
+        if (employeeFoundResponse.recordset[0]) {
+            const storedPassword = employeeFoundResponse.recordset[0].Password;
+            const isPasswordValid = await bcrypt.compare(employee.Password, storedPassword);
+
+            if (isPasswordValid) {
+                const token = jwt.sign({
+                    EmployeeID: employeeFoundResponse.recordset[0].EmployeeID,
+                    Password: storedPassword,
+                    Email: employeeFoundResponse.recordset[0].Email
+                }, process.env.JWT_SECRET, { expiresIn: "24h" });
+
+                console.log("Token is", token);
+                const { Password,role, ...employeeData } = employeeFoundResponse.recordset[0];
+                return { employee: employeeData, role:role, token: `JWT ${token}` };
+            } else {
+                return { error: 'Invalid Credentials' };
+            }
+        } else {
             return { error: 'Invalid Credentials' };
-          }
-        }else{
-          return { error: 'Invalid Credentials' };
         }
-      } catch (error) {
-        return error
-      }
+    } catch (error) {
+        return error;
+    }
 };
+
 export const updateEmployeeService = async (employee) => {
     try {
         const result = await poolRequest()

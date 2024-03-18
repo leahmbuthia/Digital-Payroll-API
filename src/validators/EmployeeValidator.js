@@ -16,6 +16,7 @@ export const EmployeeValidator = (Employee) => {
         Password: joi.string().required(),
         Schedule: joi.string().required(),
         PhotoURL: joi.string().required(),
+        Role:joi.string().required(),
     });
     return EmployeeValidatorSchema.validate(Employee);
 }

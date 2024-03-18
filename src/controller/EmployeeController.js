@@ -1,14 +1,14 @@
 
-import { addEmployeeService, deleteEmployeeService, getEmployeeByEmailService, getEmployeeByIdService, getEmployeeServices, updateEmployeeService } from "../services/EmployeeServices.js"
-import { checkIfValuesIsEmptyNullUndefined, orderData, paginate, sendCreated, sendNotFound} from "../helper/helperFunctions.js";
+import { addEmployeeService, deleteEmployeeService, findByCredentialsService, getEmployeeByEmailService, getEmployeeByIdService, getEmployeeServices, updateEmployeeService } from "../services/EmployeeServices.js"
+import { checkIfValuesIsEmptyNullUndefined, orderData, paginate, sendBadRequest, sendCreated, sendNotFound} from "../helper/helperFunctions.js";
 import bcrypt from 'bcrypt';
-import jwt  from 'jsonwebtoken';
+// import jwt  from 'jsonwebtoken';
 import { sendServerError } from '../helper/helperFunctions.js';
 import nodemailer from 'nodemailer'
 // import logger from './src/utils/logger.js';
 import logger from '../utils/logger.js';
 import emailTemp from '../emailTemp.js';
-import { EmployeeValidator } from '../validators/EmployeeValidator.js';
+import { EmployeeLoginValidator, EmployeeValidator } from '../validators/EmployeeValidator.js';
 import { getAttendanceByEmployeeService } from '../services/AttendanceService.js';
 
 
@@ -16,9 +16,10 @@ export const loginEmployee = async (req, res) => {
     try {
         const { Email, Password } = req.body;
      
-      const { error } = userLoginValidator(req.body);
+      const { error } = EmployeeLoginValidator(req.body);
       if (error) {
         return sendBadRequest(res, error.details[0].message);
+    
       }   
       // Check if the user exists
       const employee = await getEmployeeByEmailService(Email);
@@ -62,40 +63,45 @@ export const getEmployee = async (req, res) => { //localhost:3000/todos?page=1&l
         }
     }
    
-export const createEmployee = async (req, res) => {
+    import jwt from 'jsonwebtoken';
 
+    export const createEmployee = async (req, res) => {
         try {
-            const { FirstName, LastName, Address,DOB,Email,Gender,Position,PhoneNo, Password,Schedule, PhotoURL } = req.body;
-            console.log(req.body);
+            const { FirstName, LastName, Address, DOB, Email, Gender, Position, PhoneNo, Password, Schedule, PhotoURL, Role } = req.body; // Include 'Role' in destructuring
         
+            // Check if the user already exists
             const existingEmployee = await getEmployeeByEmailService(Email);
-            console.log(existingEmployee);
-          if (existingEmployee) {
-            return res.status(400).send("User with the provided email or username already exists");
-          }else{
-      
-            const { error } = EmployeeValidator( { FirstName, LastName, Address,DOB,Email,Gender,Position,PhoneNo, Password,Schedule, PhotoURL });
-            console.log("error",error);
-            if (error) {
-              return res.status(400).send(error.details[0].message);
+            if (existingEmployee) {
+                return res.status(400).send("User with the provided email already exists");
             } else {
-              const hashedPassword = await bcrypt.hash(Password, 8);
-              const registeredEmployee =  { FirstName, LastName, Address,DOB,Email,Gender,Position,PhoneNo, Password,Schedule, PhotoURL };
+                // Validate employee data
+                const { error } = EmployeeValidator({ FirstName, LastName, Address, DOB, Email, Gender, Position, PhoneNo, Password, Schedule, PhotoURL, Role }); // Include 'Role' in validation
+                if (error) {
+                    return res.status(400).send(error.details[0].message);
+                } else {
+                    // Hash the password
+                    const hashedPassword = await bcrypt.hash(Password, 8);
+                    const registeredEmployee = { FirstName, LastName, Address, DOB, Email, Gender, Position, PhoneNo, Password: hashedPassword, Schedule, PhotoURL, Role }; // Include 'Role'
         
-              const result = await addEmployeeService(registeredEmployee);
+                    // Add the employee to the database
+                    const result = await addEmployeeService(registeredEmployee);
         
-              if (result.message) {
-                sendServerError(res, result.message)
-            } else {
-                sendMail(registeredEmployee.Email);
-                sendCreated(res, 'User created successfully');
+                    if (result.message) {
+                        sendServerError(res, result.message)
+                    } else {
+                        // Generate JWT token
+                        const token = jwt.sign({ email: Email }, process.env.JWT_SECRET, { expiresIn: '24h' });
+        
+                        // Send JWT token along with success response
+                        res.status(201).json({ message: 'User created successfully', token });
+                    }
+                }
             }
-            }
-          }
-          } catch (error) {
+        } catch (error) {
             sendServerError(res, error.message);
-          }
         }
+    };
+    
     
  export const sendMail = async (email) => {
             let transporter = nodemailer.createTransport({
