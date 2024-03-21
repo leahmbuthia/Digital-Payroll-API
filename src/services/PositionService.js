@@ -9,7 +9,8 @@ dotenv.config()
 export const getAllPositionsService = async () => {
     try {
         const result = await poolRequest().query("SELECT * FROM Position"); // Assuming "Position" is the name of your positions table
-        return result.recordset;
+        // return result.recordset;
+        return result
     } catch (error) {
         throw error; // Rethrow the error to be caught and handled elsewhere
     }

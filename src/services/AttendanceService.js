@@ -1,7 +1,5 @@
 import { sql } from "../utils/dbConnect.js";
 import { poolRequest } from "../utils/dbConnect.js";
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -9,32 +7,35 @@ export const addAttendanceService = async (attendance) => {
     try {
         const result = await poolRequest()
             .input('EmployeeID', sql.Int, attendance.EmployeeID)
-            .input('Date', sql.Date, attendance.Date)
+            .input('CreatedDate', sql.Date, attendance.CreatedDate)
             .input('TimeIn', sql.Time, attendance.TimeIn)
             .input('TimeOut', sql.Time, attendance.TimeOut)
-            .query("INSERT INTO Attendance (EmployeeID, Date, TimeIn, TimeOut) VALUES (@EmployeeID, @Date, @TimeIn, @TimeOut)");
+            .query(`INSERT INTO Attendance (EmployeeID, CreatedDate, TimeIn, TimeOut) VALUES (@EmployeeID, @CreatedDate, @TimeIn, @TimeOut)`);
 
-        return result.rowsAffected.length > 0; // Check if any rows were affected
-    } catch (error) {
-        return error;
-    }
-};
-
-export const updateAttendanceService = async (attendance) => {
-    try {
-        const result = await poolRequest()
-            .input('AttendanceID', sql.Int, attendance.AttendanceID)
-            .input('EmployeeID', sql.Int, attendance.EmployeeID)
-            .input('Date', sql.Date, attendance.Date)
-            .input('TimeIn', sql.Time, attendance.TimeIn)
-            .input('TimeOut', sql.Time, attendance.TimeOut)
-            .query("UPDATE Attendance SET EmployeeID = @EmployeeID, Date = @Date, TimeIn = @TimeIn, TimeOut = @TimeOut WHERE AttendanceID = @AttendanceID");
-
-        return result;
+       return result;
     } catch (error) {
         throw error;
     }
+};
+
+export const updateAttendanceService = async (AttendanceID, updatedAttendance) => {
+    try {
+        const { EmployeeID, CreatedDate, TimeIn, TimeOut } = updatedAttendance;
+        const result = await poolRequest()
+            .input('AttendanceID', sql.Int, AttendanceID)
+            .input('EmployeeID', sql.Int, EmployeeID)
+            .input('CreatedDate', sql.DateTime, CreatedDate)
+            .input('TimeIn', sql.Time, TimeIn)  // Correct input type for TimeIn
+            .input('TimeOut', sql.Time, TimeOut) // Correct input type for TimeOut
+            .query("UPDATE Attendance SET EmployeeID = @EmployeeID, CreatedDate = @CreatedDate, TimeIn = @TimeIn, TimeOut = @TimeOut WHERE AttendanceID = @AttendanceID");
+
+        return result;
+    } catch (error) {
+        console.log("error is ", error);
+        return error;
+    }
 }
+
 
 export const deleteAttendanceService = async (AttendanceID) => {
     try {
@@ -50,14 +51,37 @@ export const deleteAttendanceService = async (AttendanceID) => {
         throw error;
     }
 }
-
-export const getAttendanceByEmployeeService = async (EmployeeID) => {
+export const findAttendanceByEmployeeIDAndDate = async (EmployeeID, Date) => {
     try {
         const result = await poolRequest()
             .input('EmployeeID', sql.Int, EmployeeID)
-            .query("SELECT Attendance.*, Employee.FirstName FROM Attendance JOIN Employee ON Attendance.EmployeeID = Employee.EmployeeID WHERE Attendance.EmployeeID = @EmployeeID");
+            .input('Date', sql.Date, Date)
+            .query("SELECT * FROM Attendance WHERE EmployeeID = @EmployeeID AND CONVERT(date, CreatedDate) = @Date");
 
-        return result.recordset;
+        if (result.recordset.length === 0) {
+            return null; // No attendance record found for the provided EmployeeID and Date
+        }
+
+        return result.recordset[0]; // Return the first attendance record found
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+
+
+export const getAttendanceByIDService = async (AttendanceID) => {
+    try {
+        const result = await poolRequest()
+            .input('AttendanceID', sql.Int, AttendanceID)
+            .query("SELECT Attendance.*, Employee.FirstName FROM Attendance JOIN Employee ON Attendance.EmployeeID = Employee.EmployeeID WHERE AttendanceID = @AttendanceID");
+        // Check if any user is found
+        if (result.recordset.length === 0) {
+            throw new Error('User not found');
+        }
+          // Return the first (and presumably only) user found
+          return result.recordset[0];
     } catch (error) {
         throw error;
     }
@@ -65,8 +89,10 @@ export const getAttendanceByEmployeeService = async (EmployeeID) => {
 
 export const getAttendanceService =async ()=>{
     try {
-        const result = await poolRequest().query("SELECT * FROM Attendance");
-        return result.recordset;
+        const result = await poolRequest()
+        .query("SELECT * FROM Attendance");
+        // return result.recordset;
+        return result
     } catch (error) {
         return error.message;
         

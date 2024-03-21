@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { deleteAttendance, getAttendance, getAttendanceByEmployeeID, updateAttendance } from "../controller/AttendanceController.js";
+import { createAttendance, deleteAttendance, getAttendance, getAttendanceById, updateAttendance } from "../controller/AttendanceController.js";
 
 const AttendanceRouter =Router();
 
 AttendanceRouter.get("/attendance", getAttendance);
-AttendanceRouter.post("/attendance", getAttendance);
+AttendanceRouter.post("/attendance",createAttendance);
 AttendanceRouter.put('/attendance/:AttendanceID', updateAttendance);
-AttendanceRouter.get('/attendance/:AttendanceID', getAttendanceByEmployeeID);
-AttendanceRouter.put('/attendance/:AttendanceID', deleteAttendance);
+AttendanceRouter.get('/attendance/:AttendanceID', getAttendanceById);
+AttendanceRouter.delete('/attendance/:AttendanceID', deleteAttendance);
 
 
 

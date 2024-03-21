@@ -7,14 +7,12 @@ import { getAllPositionsService } from "../services/PositionService.js";
 
 export const getPositions = async (req, res) => {
     try {
-        const positions = await getAllPositionsService(); // Assuming you have a service function to fetch all positions
+        const results = await getAllPositionsService();
+        const position = results.recordset
+        res.status(200).json({position: position}); // Assuming you have a service function to fetch all positions
         
-        if (positions.length === 0) {
-            sendNotFound(res, 'No positions found');
-        } else {
-            res.status(200).json(positions);
-        }
     } catch (error) {
+        console.error("Error fetching all Overtime:", error)
         sendServerError(res, error);
     }
 }

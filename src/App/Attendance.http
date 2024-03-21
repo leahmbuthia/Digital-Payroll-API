@@ -1,39 +1,33 @@
 
 ### //create Post
-POST http://localhost:8800/api/attendance 
+POST http://localhost:8800/api/attendance
 content-Type: application/json
 # Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
 
 {
-      "EmployeeID": 1002,
-      "Date": "2024-03-17",
-      "TimeIn": "10:00:00",
-      "TimeOut": "20:00:00"
+      "EmployeeID": 1,
+      "TimeIn": "2024-03-20T08:30:00Z",
+      "TimeOut": "2024-03-20T08:30:00Z"
    
 }
 
-#   {
-#       "EmployeeID": 2,
-#       "Date": "2024-03-17",
-#       "TimeIn": "08:30:00",
-#       "TimeOut": "16:30:00"
-#     },
 //get all Groups
 ####
 GET http://localhost:8800/api/attendance
 ### //get Group  by id
-GET http://localhost:8800/api/attendance/1
+GET http://localhost:8800/api/attendance/9
 # Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
 
 ### //update todo
-PUT http://localhost:8800/api/attendance/1
+PUT http://localhost:8800/api/attendance/9
 Content-Type: application/json
 # Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
 
 {
-    "GroupName": "Group3",
-    "Description":"which database.",
-    "CreatedDate":"15-Feb-2024" 
+   "EmployeeID": 1002,
+   "CreatedDate": "2024-03-19T00:00:00.000Z",
+      "TimeIn": "2024-03-20T08:59:00Z",
+      "TimeOut": "2024-03-20T08:30:00Z" 
 }
 
 

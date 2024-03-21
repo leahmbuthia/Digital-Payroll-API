@@ -3,65 +3,39 @@ import { poolRequest } from "../utils/dbConnect.js";
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const getOvertimeServices = async () => {
-    try {
-        const result = await poolRequest().query("SELECT * FROM Overtime");
-        return result.recordset;
-    } catch (error) {
-        return error.message;
-    }
-};
-
 export const addOvertimeService = async (overtime) => {
     try {
         const result = await poolRequest()
             .input('EmployeeID', sql.Int, overtime.EmployeeID)
-            .input('Date', sql.Date, overtime.Date)
+            .input('CreatedDate', sql.Date, overtime.CreatedDate)
             .input('Hours', sql.Int, overtime.Hours)
             .input('Minutes', sql.Int, overtime.Minutes)
             .input('Rate', sql.Decimal(10, 2), overtime.Rate)
-            .query("INSERT INTO Overtime (EmployeeID, Date, Hours, Minutes, Rate) VALUES (@EmployeeID, @Date, @Hours, @Minutes, @Rate)");
+            .query(`INSERT INTO Overtime (EmployeeID, CreatedDate, Hours, Minutes, Rate) VALUES (@EmployeeID, @CreatedDate, @Hours, @Minutes, @Rate)`);
+
         return result;
-    } catch (error) {
-        return error;
-    }
-};
-
-export const getOvertimeByEmailService = async (EmployeeID) => {
-    try {
-        const result = await poolRequest()
-            .input('EmployeeID', sql.Int, EmployeeID)
-            .query("SELECT * FROM Overtime WHERE EmployeeID = @EmployeeID");
-
-        return result.recordset;
     } catch (error) {
         throw error;
     }
 };
 
-// Example authentication function for Overtime
-export const findByCredentialsService = async (overtime) => {
+export const updateOvertimeService = async (OvertimeID, updatedOvertime) => {
     try {
-        // Implement your authentication logic here
-    } catch (error) {
-        return error;
-    }
-};
-
-export const updateOvertimeService = async (overtime) => {
-    try {
+        const { EmployeeID, CreatedDate, Hours, Minutes, Rate } = updatedOvertime;
         const result = await poolRequest()
-            .input('OvertimeID', sql.Int, overtime.OvertimeID)
-            .input('Date', sql.Date, overtime.Date)
-            .input('Hours', sql.Int, overtime.Hours)
-            .input('Minutes', sql.Int, overtime.Minutes)
-            .input('Rate', sql.Decimal(10, 2), overtime.Rate)
-            .query("UPDATE Overtime SET Date = @Date, Hours = @Hours, Minutes = @Minutes, Rate = @Rate WHERE OvertimeID = @OvertimeID");
+            .input('OvertimeID', sql.Int, OvertimeID)
+            .input('EmployeeID', sql.Int, EmployeeID)
+            .input('CreatedDate', sql.Date, CreatedDate)
+            .input('Hours', sql.Int, Hours)
+            .input('Minutes', sql.Int, Minutes)
+            .input('Rate', sql.Decimal(10, 2), Rate)
+            .query("UPDATE Overtime SET EmployeeID = @EmployeeID, CreatedDate = @CreatedDate, Hours = @Hours, Minutes = @Minutes, Rate = @Rate WHERE OvertimeID = @OvertimeID");
+
         return result;
     } catch (error) {
-        return error;
+        throw error;
     }
-};
+}
 
 export const deleteOvertimeService = async (OvertimeID) => {
     try {
@@ -70,27 +44,55 @@ export const deleteOvertimeService = async (OvertimeID) => {
             .query("DELETE FROM Overtime WHERE OvertimeID = @OvertimeID");
 
         if (result.rowsAffected[0] === 0) {
-            throw new Error('Overtime entry not found');
+            throw new Error('Overtime record not found');
         }
         return result;
     } catch (error) {
         throw error;
     }
-};
+}
 
-export const getOvertimeByIdService = async (OvertimeID) => {
+export const findOvertimeByEmployeeIDAndDate = async (EmployeeID, Date) => {
+    try {
+        const result = await poolRequest()
+            .input('EmployeeID', sql.Int, EmployeeID)
+            .input('Date', sql.Date, Date)
+            .query("SELECT * FROM Overtime WHERE EmployeeID = @EmployeeID AND CONVERT(date, CreatedDate) = @Date");
+
+        if (result.recordset.length === 0) {
+            return null; // No overtime record found for the provided EmployeeID and Date
+        }
+
+        return result.recordset[0]; // Return the first overtime record found
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+export const getOvertimeByIDService = async (OvertimeID) => {
     try {
         const result = await poolRequest()
             .input('OvertimeID', sql.Int, OvertimeID)
-            .query("SELECT * FROM Overtime WHERE OvertimeID = @OvertimeID");
+            .query("SELECT Overtime.*, Employee.FirstName FROM Overtime JOIN Employee ON Overtime.EmployeeID = Employee.EmployeeID WHERE OvertimeID = @OvertimeID");
 
         if (result.recordset.length === 0) {
-            throw new Error('Overtime entry not found');
+            throw new Error('Overtime record not found');
         }
 
         return result.recordset[0];
     } catch (error) {
         throw error;
     }
-};
+}
 
+export const getOvertimeService = async () => {
+    try {
+        const result = await poolRequest()
+            .query("SELECT * FROM Overtime");
+
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    }
+}

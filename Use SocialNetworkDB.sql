@@ -13,7 +13,6 @@ CREATE TABLE Employee (
     Position VARCHAR(255),
 	Password VARCHAR(255),
     Schedule VARCHAR(255) NOT NULL,
-    PhotoURL VARCHAR(255),
     Role VARCHAR(10)
 );
  select * from Employee
@@ -24,12 +23,13 @@ CREATE TABLE Employee (
 CREATE TABLE Attendance (
     AttendanceID INT IDENTITY(1,1) PRIMARY KEY,
     EmployeeID INT,
-    Date DATE,
-    TimeIn TIME,
-    TimeOut TIME,
+    CreatedDate DATETIME,
+    TimeIn DATETIME,
+    TimeOut DATETIME,
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
 Drop Table Attendance
+SELECT * FROM Attendance
 -- Insert dummy data
 INSERT INTO Attendance (EmployeeID, Date, TimeIn, TimeOut)
 VALUES
@@ -44,7 +44,7 @@ DROP TABLE Attendance
 CREATE TABLE Overtime (
     OvertimeID INT IDENTITY(1,1) PRIMARY KEY,
     EmployeeID INT,
-    Date DATE,
+    CreatedDate DATETIME,
     Hours INT,
     Minutes INT,
     Rate DECIMAL(10,2),
@@ -56,13 +56,19 @@ DROP TABLE Overtime
 
 -- Create Friendship Table
 CREATE TABLE AdvanceCash (
-    AdvanceCash INT IDENTITY(1,1) PRIMARY KEY,
+    AdvanceCashID INT IDENTITY(1,1) PRIMARY KEY,
     EmployeeID INT,
     Date DATE,
     Amount DECIMAL(10,2),
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
 DROP TABLE AdvanceCash
+
+-- Insert dummy data into the AdvanceCash table
+INSERT INTO AdvanceCash (EmployeeID, Date, Amount)
+VALUES
+    (2, '2024-03-01', 500.00),
+    (3, '2024-03-02', 700.00)
 
 
 -- Create Photo Table
@@ -82,12 +88,12 @@ DROP TABLE Schedule
 CREATE TABLE Deduction (
     DeductionID INT IDENTITY(1,1) PRIMARY KEY,
     EmployeeID INT,
-    AdvanceCashID INT,
     NHIF VARCHAR(255),
     NSSF VARCHAR(255),
     PAYE DECIMAL(10,2),
+    TotalDeductions DECIMAL (10,2),
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID),
-    FOREIGN KEY (AdvanceCashID) REFERENCES AdvanceCash(AdvanceCashID)
+   
 );
 
 select * FROM Deduction
@@ -118,3 +124,36 @@ INSERT INTO Position (PositionID) VALUES
 (1, 'Manager'),
 (2, 'Cashier'),
 (3, 'Sales Associate');
+
+
+
+	CREATE TABLE Attendance (
+    AttendanceID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT,
+    CraetedDate DATETIME,
+    TimeIn TIME,
+    TimeOut TIME,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+);
+SELECT * FROM Attendance
+DROP table Attendance
+
+INSERT INTO Overtime (EmployeeID, Date, Hours, Minutes, Rate)
+VALUES
+    (1, '2024-03-19 18:30:00', 2, 30, 20.50),
+    (2, '2024-03-19 21:45:00', 3, 15, 25.75)
+
+SELECT * FROM Payroll
+
+INSERT INTO Payroll (EmployeeID, GrossPay, Deductions, NetPay, PayrollDate)
+VALUES
+    (1, 5000.00, 500.00, 4500.00, '2024-01-05'),
+    (2, 6000.00, 600.00, 5400.00, '2024-01-10'),
+    (3, 7000.00, 700.00, 6300.00, '2024-01-15')
+
+	Select * from Position
+
+	INSERT INTO Schedule (EmployeeID, StartTime, EndTime, Days)
+VALUES 
+    (1, '08:00:00', '17:00:00', 'Monday, Wednesday, Friday'),
+    (2, '09:00:00', '18:00:00', 'Tuesday, Thursday')

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createSchedule, deleteSchedule, getSchedule, updateSchedule } from "../controller/ScheduleController.js";
+import { createSchedule, deleteSchedule, getSchedule, getScheduleById, updateSchedule } from "../controller/ScheduleController.js";
 import { authMiddleware } from '../middleware/AuthUserMiddleware.js';
 
 const ScheduleRouter = Router();
@@ -8,7 +8,7 @@ const ScheduleRouter = Router();
 ScheduleRouter.get('/schedule', getSchedule);
 ScheduleRouter.post('/schedule', createSchedule);
 ScheduleRouter.put('/schedule/:scheduleID', updateSchedule);
-// ScheduleRouter.get('/schedule/:scheduleID', getScheduleById);
+ScheduleRouter.get('/schedule/:scheduleID', getScheduleById);
 ScheduleRouter.delete('/schedule/:scheduleID', deleteSchedule);
 
 export default ScheduleRouter;

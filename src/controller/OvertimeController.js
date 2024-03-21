@@ -1,102 +1,92 @@
-import { sendCreated, sendServerError } from "../helper/helperFunctions.js";
-import { addOvertimeService, getOvertimeByIdService, updateOvertimeService, deleteOvertimeService } from "../services/OvertimeService.js"; // Import Overtime services instead of Employee services
-import { OvertimeValidator } from '../validators/OvertimeValidator.js'; // Import OvertimeValidator instead of EmployeeValidator
-
+import { addOvertimeService, deleteOvertimeService, getOvertimeByIDService, getOvertimeService, updateOvertimeService } from "../services/OvertimeService.js";
+import { checkIfValuesIsEmptyNullUndefined, orderData, paginate, sendCreated, sendNotFound, sendServerError } from "../helper/helperFunctions.js";
+import { OvertimeValidator } from '../validators/OvertimeValidator.js';
+import { getEmployeeServices } from "../services/EmployeeServices.js";
 
 export const getOvertime = async (req, res) => {
     try {
-        const data = await getOvertimeServices();
-        if (data.length === 0) {
-            sendNotFound(res, 'No Overtime entries found');
-        } else {
-            if (!req.query.page || !req.query.limit) {
-                if (req.query.order) {
-                    res.status(200).json(orderData(data, req.query.order));
-                } else {
-                    res.status(200).json(data);
-                }
-            } else {
-                if (req.query.order) {
-                    paginate(orderData(data, req.query.order), req, res);
-                } else {
-                    paginate(data, req, res);
-                }
-            }
-        }
+        const overtimeList = await getOvertimeService();
+        res.status(200).json({ overtime: overtimeList });
     } catch (error) {
+        console.error("Error fetching all Overtime");
         sendServerError(res, error);
     }
-};
+}
 
 export const createOvertime = async (req, res) => {
     try {
-        const { EmployeeID, Date, Hours, Minutes, Rate } = req.body;
+        const { EmployeeID,  Hours, Minutes, Rate } = req.body;
+        const { error } = OvertimeValidator({ EmployeeID, Hours, Minutes, Rate });
 
-        // Validate input data
-        const { error } = OvertimeValidator({ EmployeeID, Date, Hours, Minutes, Rate });
         if (error) {
             return res.status(400).send(error.details[0].message);
+        } else {
+            const CreatedDate = new Date();
+            const newOvertime = { EmployeeID,CreatedDate, Hours, Minutes, Rate };
+            const result = await addOvertimeService(newOvertime);
+            if (result.message) {
+                sendServerError(res, result.message);
+            } else {
+                res.status(201).json({ message: 'Overtime Created Successfully' });
+                console.log('Request Body:', req.body);
+            }
         }
-
-        // Check if overtime for the given employee and date already exists
-        // Add your logic here if needed
-
-        // Create new overtime entry
-        const result = await addOvertimeService({ EmployeeID, Date, Hours, Minutes, Rate });
-        if (result.message) {
-            return sendServerError(res, result.message);
-        }
-
-        // If successfully created, send response
-        return sendCreated(res, 'Overtime entry created successfully');
     } catch (error) {
-        return sendServerError(res, error.message);
+        sendServerError(res, error.message);
+    }
+};
+
+export const getOvertimeById = async (req, res) => {
+    try {
+        const OvertimeID = req.params.OvertimeID;
+        const overtime = await getOvertimeByIDService(OvertimeID);
+
+        if (overtime) {
+            return res.status(200).json({ overtime });
+        } else {
+            return sendNotFound(res, 'Overtime not found');
+        }
+    } catch (error) {
+        return sendServerError(res, error.message)
     }
 };
 
 export const updateOvertime = async (req, res) => {
     try {
-        const { Date, Hours, Minutes, Rate } = req.body;
-        const OvertimeID = req.params.OvertimeID;
+        const { OvertimeID } = req.params;
+        const updatedOvertimeData = req.body;
+        const existingOvertime = await getOvertimeByIDService(OvertimeID);
 
-        // Validate input data
-        const { error } = OvertimeValidator({ Date, Hours, Minutes, Rate });
-        if (error) {
-            return res.status(400).send(error.details[0].message);
+        if (!existingOvertime) {
+            return res.status(400).json({ message: "Overtime not found" });
         }
 
-        // Check if the overtime entry exists
-        const overtimeToUpdate = await getOvertimeByIdService(OvertimeID);
-        if (!overtimeToUpdate) {
-            return sendNotFound(res, 'Overtime entry not found');
+        const result = await updateOvertimeService(OvertimeID, updatedOvertimeData);
+
+        if (result instanceof Error) {
+            console.error("Error Updating Overtime:", result);
+            return res.status(500).json({ message: 'Overtime update failed' });
+        } else {
+            return res.status(200).json({ message: 'Overtime updated successfully' });
         }
-
-        // Update overtime entry
-        await updateOvertimeService({ OvertimeID, Date, Hours, Minutes, Rate });
-
-        return sendCreated(res, 'Overtime entry updated successfully');
     } catch (error) {
-        return sendServerError(res, error.message);
+        console.error("Error updating overtime:", error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
 };
 
 export const deleteOvertime = async (req, res) => {
     try {
         const OvertimeID = req.params.OvertimeID;
-
-        // Check if the overtime entry exists
         const result = await deleteOvertimeService(OvertimeID);
 
-        // Check if any rows are affected (overtime entry deleted)
         if (result.rowsAffected[0] > 0) {
-            // Return a success message
-            return res.status(200).json({ message: 'Overtime entry deleted successfully' });
+            return res.status(200).json({ message: 'Overtime Deleted Successfully' });
         } else {
-            // If no overtime entry is deleted, return an error
-            return sendNotFound(res, 'Overtime entry not found');
+            return res.status(404).json({ error: 'Overtime record not found' });
         }
     } catch (error) {
-        // Handle any unexpected errors
-        return sendServerError(res, error.message);
+        console.error("Error deleting overtime:", error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
 };

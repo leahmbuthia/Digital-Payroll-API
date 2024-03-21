@@ -12,24 +12,21 @@ content-Type: application/json
 ####
 GET http://localhost:8800/api/position
 ### //get Group  by id
-GET http://localhost:8800/api/overtime/1
+GET http://localhost:8800/api/position/2
 # Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
 
 
 ### //update todo
-PUT http://localhost:8800/api/overtime/1002
+PUT http://localhost:8800/api/position/2
 Content-Type: application/json
 # Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
 
 {
    
-  "EmployeeID": 1002,
-  "Date": "2020-01-10",
-  "Hours": 8,
-  "Minutes": 0,
-  "Rate": 500.0  
+   "EmployeeID": 2, 
+  "Position": "Leah Developer"
 }
 
 
 ### //delete Events
- DELETE http://localhost:8800/api/overtime/1
+ DELETE http://localhost:8800/api/position/2

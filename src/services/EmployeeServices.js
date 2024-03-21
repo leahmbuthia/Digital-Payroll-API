@@ -30,9 +30,9 @@ export const addEmployeeService = async (employee) => {
             .input('Position',sql.VarChar,employee.Position)
             .input('Password', sql.VarChar, employee.Password)
             .input('Schedule', sql.VarChar, employee.Schedule)
-            .input('PhotoURL', sql.VarChar, employee.PhotoURL)
+            // .input('PhotoURL', sql.VarChar, employee.PhotoURL)
             .input('Role', sql.VarChar, employee.Role)
-            .query("USE PAYROLLDB; INSERT INTO Employee (FirstName, LastName, Address, DOB, Email, PhoneNo, Gender, Position, Password, Schedule, PhotoURL, Role)  VALUES (@FirstName, @LastName, @Address, @DOB, @Email, @PhoneNo, @Gender, @Position, @Password, @Schedule, @PhotoURL, @Role)");
+            .query("USE PAYROLLDB; INSERT INTO Employee (FirstName, LastName, Address, DOB, Email, PhoneNo, Gender, Position, Password, Schedule,  Role)  VALUES (@FirstName, @LastName, @Address, @DOB, @Email, @PhoneNo, @Gender, @Position, @Password, @Schedule, @Role)");
             
         return result;
     } catch (error) {
@@ -81,27 +81,58 @@ export const getEmployeeByEmailService = async (Email) => {
     }
 };
 
-export const updateEmployeeService = async (employee) => {
+export const updateEmployeeService = async (EmployeeID,updatedEmployeeData ) => {
     try {
+        const {
+            FirstName,
+            LastName,
+            Address,
+            DOB,
+            Email,
+            Gender,
+            Position,
+            PhoneNo,
+            Password,
+            Schedule,
+            Role,
+          }= updatedEmployeeData;
         const result = await poolRequest()
-         // .input('EmployeeID', sql.VarChar, employee.EmployeeID)
-         .input('FirstName', sql.VarChar, employee.FirstName)
-         .input('LastName', sql.VarChar, employee.LastName)
-         .input('Address', sql.VarChar, employee.Address)
-         .input('DOB', sql.VarChar, employee.DOB)
-         .input('Email', sql.VarChar, employee.Email)
-         .input('PhoneNo',sql.VarChar,employee.PhoneNo)
-         .input('Gender',sql.VarChar,employee.Gender)
-         .input('Position',sql.VarChar,employee.Position)
-         .input('Password', sql.VarChar, employee.Password)
-         .input('Schedule', sql.VarChar, employee.Schedule)
-         .input('PhotoURL', sql.VarChar, employee.PhotoURL)
-         .query("USE PAYROLLDB; UPDATE Employee SET FirstName= @FirstName,LastName=@LastName,Address=@Address,DOB=@DOB,Email=@Email,PhoneNo=@PhoneNo,Gender=@Gender, Position=@Position,Password=@Password,Schedule=@Schedule,PhotoURL=@PhotoURL");
-        return result;
+            .input('EmployeeID', sql.Int, EmployeeID)
+            .input('FirstName', sql.VarChar(50), FirstName)
+            .input('LastName', sql.VarChar(50), LastName)
+            .input('Address', sql.VarChar(100), Address)
+            .input('DOB', sql.Date, new Date(DOB))
+            .input('Email', sql.VarChar(100), Email)
+            .input('PhoneNo', sql.VarChar(20), PhoneNo)
+            .input('Gender', sql.VarChar(10), Gender)
+            .input('Position', sql.VarChar(50), Position)
+            .input('Password', sql.VarChar(100), Password)
+            .input('Schedule', sql.VarChar(100), Schedule)
+            .input('Role', sql.VarChar(50), Role)
+            .query(`
+                UPDATE Employee 
+                SET 
+                    FirstName = @FirstName, 
+                    LastName = @LastName, 
+                    Address = @Address, 
+                    DOB = @DOB, 
+                    Email = @Email, 
+                    PhoneNo = @PhoneNo, 
+                    Gender = @Gender, 
+                    Position = @Position, 
+                    Password = @Password, 
+                    Schedule = @Schedule, 
+                    Role = @Role
+                WHERE 
+                    EmployeeID = @EmployeeID
+            `);
+            return result;
     } catch (error) {
+        console.log("error is ", error);
         return error;
     }
 }
+
 
 
 export const deleteEmployeeService = async (EmployeeID) => {

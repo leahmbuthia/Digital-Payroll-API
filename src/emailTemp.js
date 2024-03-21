@@ -1,4 +1,4 @@
-const emailTemp = `
+const emailTemp =(FirstName , LastName) => `
 <!DOCTYPE html>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
@@ -174,7 +174,7 @@ const emailTemp = `
 														<tr>
 															<td class="pad" style="padding-left:15px;padding-right:10px;padding-top:20px;">
 																<div style="color:#052d3d;font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif;font-size:38px;line-height:150%;text-align:center;mso-line-height-alt:57px;">
-																	<p style="margin: 0; word-break: break-word;"><span><strong><span><span>WELCOME</span></span></strong></span></p>
+																	<p style="margin: 0; word-break: break-word;"><span><strong><span><span>WELCOME To Digital Payroll</span></span></strong></span></p>
 																</div>
 															</td>
 														</tr>
@@ -183,7 +183,7 @@ const emailTemp = `
 														<tr>
 															<td class="pad" style="padding-left:15px;padding-right:10px;">
 																<div style="color:#052d3d;font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif;font-size:34px;line-height:150%;text-align:center;mso-line-height-alt:51px;">
-																	<p style="margin: 0; word-break: break-word;"><span><strong><span><span style="color: #2190e3;">Leah</span></span></strong></span></p>
+																	<p style="margin: 0; word-break: break-word;"><span><strong><span><span style="color: #2190e3;">${FirstName} ${LastName}</span></span></strong></span></p>
 																</div>
 															</td>
 														</tr>
