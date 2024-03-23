@@ -34,8 +34,8 @@ export const addDeductionService = async (employeeID, NHIF, NSSF, PAYE, TotalDed
     try {
         const result = await poolRequest()
             .input('EmployeeID', sql.Int, employeeID)
-            .input('NHIF', sql.VarChar, NHIF)
-            .input('NSSF', sql.VarChar, NSSF)
+            .input('NHIF', sql.Decimal, NHIF)
+            .input('NSSF', sql.Decimal, NSSF)
             .input('PAYE', sql.Decimal, PAYE)
             .input('TotalDeductions', sql.Decimal, TotalDeductions)
             .query("INSERT INTO Deduction (EmployeeID, NHIF, NSSF, PAYE, TotalDeductions) VALUES (@EmployeeID, @NHIF, @NSSF, @PAYE, @TotalDeductions)");
@@ -52,8 +52,8 @@ export const updateDeductionService = async (DeductionID, updateDeductionData) =
         const result = await poolRequest()
             .input('DeductionID', sql.Int, DeductionID)
             .input('EmployeeID', sql.Int, EmployeeID)
-            .input('NHIF', sql.VarChar, NHIF)
-            .input('NSSF', sql.VarChar, NSSF)
+            .input('NHIF', sql.Decimal, NHIF)
+            .input('NSSF', sql.Decimal, NSSF)
             .input('PAYE', sql.Decimal, PAYE)
             .input('TotalDeductions', sql.Decimal, TotalDeductions)
             .query("UPDATE Deduction SET EmployeeID = @EmployeeID,NHIF = @NHIF, NSSF = @NSSF, PAYE = @PAYE, TotalDeductions = @TotalDeductions WHERE DeductionID = @DeductionID");

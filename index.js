@@ -14,7 +14,7 @@ import AdvanceRouter from './src/routers/AdvanceRouter.js';
 import ScheduleRouter from './src/routers/ScheduleRouter.js';
 import PositionRouter from './src/routers/PositionRouter.js';
 import PayrollRouter from './src/routers/PayrollRouter.js'
-import DeductionRouter from './src/routers/OvertimeRouter.js';
+import DeductionRouter from './src/routers/DeductionRouter.js';
 
 dotenv.config();
 const app = express();

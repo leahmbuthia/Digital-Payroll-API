@@ -56,7 +56,7 @@ export const findAttendanceByEmployeeIDAndDate = async (EmployeeID, Date) => {
         const result = await poolRequest()
             .input('EmployeeID', sql.Int, EmployeeID)
             .input('Date', sql.Date, Date)
-            .query("SELECT * FROM Attendance WHERE EmployeeID = @EmployeeID AND CONVERT(date, CreatedDate) = @Date");
+            .query("SELECT * FROM Attendance WHERE EmployeeID = @EmployeeID AND CONVERT(date, CreatedDate) =@Date");
 
         if (result.recordset.length === 0) {
             return null; // No attendance record found for the provided EmployeeID and Date
@@ -69,13 +69,11 @@ export const findAttendanceByEmployeeIDAndDate = async (EmployeeID, Date) => {
 }
 
 
-
-
 export const getAttendanceByIDService = async (AttendanceID) => {
     try {
         const result = await poolRequest()
             .input('AttendanceID', sql.Int, AttendanceID)
-            .query("SELECT Attendance.*, Employee.FirstName FROM Attendance JOIN Employee ON Attendance.EmployeeID = Employee.EmployeeID WHERE AttendanceID = @AttendanceID");
+            .query("SELECT Attendance.*, Employee.FirstName , Employee.LastName FROM Attendance JOIN Employee ON Attendance.EmployeeID = Employee.EmployeeID WHERE AttendanceID = @AttendanceID");
         // Check if any user is found
         if (result.recordset.length === 0) {
             throw new Error('User not found');
@@ -90,7 +88,7 @@ export const getAttendanceByIDService = async (AttendanceID) => {
 export const getAttendanceService =async ()=>{
     try {
         const result = await poolRequest()
-        .query("SELECT * FROM Attendance");
+        .query("SELECT Attendance.*, Employee.FirstName , Employee.LastName FROM Attendance JOIN Employee ON Attendance.EmployeeID = Employee.EmployeeID");
         // return result.recordset;
         return result
     } catch (error) {

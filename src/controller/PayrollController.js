@@ -7,7 +7,7 @@ import emailTemp from "../emailTemp.js";
 import { sendBadRequest, sendCreated, sendNotFound } from "../helper/helperFunctions.js";
 import { PayrollValidator} from "../validators/PayrollValidator.js";
 
-import { addPayrollService, deletePayrollService, getAllPayrollsService, getPayrollByIdService, updatePayrollService } from "../services/PayrollService.js";
+import { addPayrollService, deletePayrollService, getAllPayrollsService, getPayrollByEmployeeIDService, getPayrollByIdService, updatePayrollService } from "../services/PayrollService.js";
 
 
 export const getPayroll = async (req, res) => {
@@ -40,6 +40,12 @@ export const getPayrollById = async (req, res) => {
 export const createPayroll = async (req, res) => {
   try {
     const { EmployeeID, GrossPay, Deductions, NetPay, PayrollDate } = req.body;
+
+    // Check if the EmployeeID already exists in the database
+    const existingPayroll = await getPayrollByEmployeeIDService(EmployeeID);
+    if (existingPayroll) {
+      return res.status(400).json({ message: "Employee already has a payroll" });
+    }
 
     // Validate payroll data
     const { error } = PayrollValidator(req.body);
@@ -91,8 +97,9 @@ export const updatePayroll = async (req, res) => {
 
 export const deletePayroll = async (req, res) => {
   try {
-    const payrollID = req.params.payrollID;
-    const result = await deletePayrollService(payrollID);
+    const PayrollID = req.params.PayrollID;
+    const result = await deletePayrollService(PayrollID);
+
     if (result.rowsAffected[0] > 0) {
       return res.status(200).json({ message: "Payroll deleted successfully" });
     } else {

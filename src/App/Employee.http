@@ -4,16 +4,16 @@ POST http://localhost:8800/api/employee
 content-Type: application/json
 
 {
-  "FirstName": "Cofen",
-  "LastName": "Dovesilo",
-  "Address": "254 Nairobi , Springfield, USA",
-  "DOB": "1990-08-15",
-  "Email": "cofen56976@dovesilo.com",
+  "FirstName": "Ndwgwa",
+  "LastName": "Demlate",
+  "Address": "254 Nairobi , Kenye",
+  "DOB": "1997-08-15",
+  "Email": "demlateydo@gufum.com",
   "Gender": "female",
-  "Position": "Sales",
-  "PhoneNo": "+254 87654321",
-  "Password": "Jane123",
-  "Schedule": "Monday to Friday, 8:00 AM - 5:00 PM",
+  "Position": "Ict Officer",
+  "PhoneNo": "+254 7098567",
+  "Password": "Ndegwa123",
+  "Schedule": "Monday to Friday, 7:00 AM - 5:00 PM",
   "Role": "user"
 }
 

@@ -34,12 +34,18 @@ export const getDeductionById = async (req, res) => {
 // Function to create a new deduction
 export const createDeduction = async (req, res) => {
     try {
-        const { EmployeeID, NHIF, NSSF, PAYE, TotalDeductions } = req.body;
+        const { EmployeeID, NHIF, NSSF, PAYE } = req.body;
+        
+        // Calculate total deductions
+        const TotalDeductions = NHIF + NSSF + PAYE;
+
+        // Validate deduction data
         const { error } = DeductionValidator({ EmployeeID, NHIF, NSSF, PAYE, TotalDeductions });
         
         if (error) {
             sendBadRequest(res, error.details[0].message);
         } else {
+            // Add deduction to the database
             const result = await addDeductionService(EmployeeID, NHIF, NSSF, PAYE, TotalDeductions);
             
             if (result.message) {
@@ -52,6 +58,7 @@ export const createDeduction = async (req, res) => {
         sendServerError(res, error.message);
     }
 }
+
 
 // Function to update an existing deduction
 export const updateDeduction = async (req, res) => {
@@ -70,7 +77,6 @@ export const updateDeduction = async (req, res) => {
         const result = await updateDeductionService(DeductionID, updateDeductionData);
         
         if (result instanceof Error){
-            console.error("Error Updating Attendance:", result);
             return res.status(500).json({
                 message: 'Attendance updated successfully'
             });
@@ -80,9 +86,8 @@ export const updateDeduction = async (req, res) => {
             });
          }
         } catch (error) {
-            console.error("Error updating employee:", error);
         return res.status(500).json({
-          message: 'Internal server error'
+          message: 'Deduction not found'
         });
             
     }

@@ -8,9 +8,21 @@ dotenv.config();
 // Function to get all payrolls
 export const getAllPayrollsService = async () => {
     try {
-        const result = await poolRequest().query(`SELECT * FROM Payroll`);
-        // return result.recordset;
-        return result
+        const query = `
+            SELECT 
+                Employee.FirstName,
+                Payroll.*,
+                Deduction.*
+            FROM 
+                Employee
+            INNER JOIN 
+                Payroll ON Employee.EmployeeID = Payroll.EmployeeID
+            INNER JOIN 
+                Deduction ON Employee.EmployeeID = Deduction.EmployeeID;
+        `;
+        
+        const result = await poolRequest().query(query);
+        return result;
     } catch (error) {
         throw error;
     }
@@ -32,13 +44,34 @@ export const addPayrollService = async (payroll) => {
         throw error;
     }
 };
+// Function to get payroll by EmployeeID
+ export const getPayrollByEmployeeIDService = async (employeeID) => {
+    try {
+      const result = await poolRequest()
+        .input('EmployeeID', sql.Int, employeeID)
+        .query("SELECT * FROM Payroll WHERE EmployeeID = @EmployeeID");
+      
+      return result.recordset[0]; // Return the first matching payroll record if found
+    } catch (error) {
+      throw error;
+    }
+  };
 
 // Function to get payroll by ID
 export const getPayrollByIdService = async (payrollID) => {
     try {
         const result = await poolRequest()
             .input('PayrollID', sql.Int, payrollID)
-            .query("SELECT * FROM Payroll WHERE PayrollID = @PayrollID");
+            .query(` SELECT 
+            Employee.FirstName,
+            Payroll.*,
+            Deduction.*
+        FROM 
+            Employee
+        INNER JOIN 
+            Payroll ON Employee.EmployeeID = Payroll.EmployeeID
+        INNER JOIN 
+            Deduction ON Employee.EmployeeID = Deduction.EmployeeID WHERE PayrollID = @PayrollID`);
 
         if (result.recordset.length === 0) {
             throw new Error('Payroll not found');
@@ -76,11 +109,11 @@ export const deletePayrollService = async (payrollID) => {
             .input('PayrollID', sql.Int, payrollID)
             .query("DELETE FROM Payroll WHERE PayrollID = @PayrollID");
 
-        if (result.rowsAffected[0] === 0) {
+        if (result.recordset.length === 0)  {
             throw new Error('Payroll not found');
         }
 
-        // return result.recordset[0];
+        return result.recordset[0];
     } catch (error) {
         throw error;
     }

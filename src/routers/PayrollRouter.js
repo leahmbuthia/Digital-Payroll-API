@@ -4,10 +4,10 @@ import { createPayroll, deletePayroll, getPayroll, getPayrollById, updatePayroll
 
 const PayrollRouter =Router();
 
-PayrollRouter.post("/payroll",createPayroll);
-PayrollRouter.get("/payroll",getPayroll);
-PayrollRouter.put('/payroll/:PayrollID',updatePayroll);
-PayrollRouter.get("/payroll/:PayrollID",getPayrollById);
-PayrollRouter.delete("/payroll/:PayrollID",deletePayroll);
+PayrollRouter.post("/payrolls",createPayroll);
+PayrollRouter.get("/payrolls",getPayroll);
+PayrollRouter.put('/payrolls/:PayrollID',updatePayroll);
+PayrollRouter.get("/payrolls/:PayrollID",getPayrollById);
+PayrollRouter.delete("/payrolls/:PayrollID",deletePayroll);
 
 export default PayrollRouter;

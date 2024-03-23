@@ -88,13 +88,13 @@ DROP TABLE Schedule
 CREATE TABLE Deduction (
     DeductionID INT IDENTITY(1,1) PRIMARY KEY,
     EmployeeID INT,
-    NHIF VARCHAR(255),
-    NSSF VARCHAR(255),
-    PAYE DECIMAL(10,2),
-    TotalDeductions DECIMAL (10,2),
-    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID),
-   
+    NHIF DECIMAL(12,2),
+    NSSF DECIMAL(12,2),
+    PAYE DECIMAL(12,2),
+    TotalDeductions DECIMAL(12,2),
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
+
 
 select * FROM Deduction
 Drop TABLE Deduction
@@ -118,7 +118,7 @@ CREATE TABLE Payroll (
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
 DROP TABLE Payroll
-
+SELECT * FROM Payroll
 
 INSERT INTO Position (PositionID) VALUES
 (1, 'Manager'),

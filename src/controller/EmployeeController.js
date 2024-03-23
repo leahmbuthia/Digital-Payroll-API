@@ -39,12 +39,12 @@ export const loginEmployee = async (req, res) => {
     }
     // Check if the user exists
     const employee = await getEmployeeByEmailService(Email);
-    console.log("employee", employee);
+    // console.log("employee", employee);
     if (!employee) {
       return sendNotFound(res, "User not found");
     } else {
       const loggedInUser = await findByCredentialsService({ Email, Password });
-      console.log("logged in", loggedInUser);
+      // console.log("logged in", loggedInUser);
 
       res.json({ message: "Logged in successfully", loggedInUser });
     }
@@ -173,7 +173,18 @@ export const sendMail = async (email) => {
     to: email,
     subject: "Welcome to Our Digital Payroll!",
     // text: 'test 2 sending dummy emails!'
-    html: emailTemp,
+    html: `<div style="font-family: Arial, sans-serif; background:linear-gradient(to left,rgba(255,153,0,1),#007bff); max-width: 600px; margin: 0 auto;">
+    <p style="font-size: 18px; font-weight: bold;">Dear ${user.Firstname},</p>
+    <p style="font-size: 16px;">Thank you for registering. Here are your details:</p>
+    <ul style="font-size: 16px;">
+      <li><strong>Firstname:</strong> ${user.Firstname}</li>
+      <li><strong>Lastname:</strong> ${user.Lastname}</li>
+      <li><strong>Email:</strong> ${user.Email}</li>
+      <li><strong>Password:</strong> ${user.Password}</li>
+    </ul>
+    <p style="font-size: 16px;">Regards,<br/>Your Application Team</p>
+  </div>`
+
   };
   try {
     logger.info("Sending mail....");

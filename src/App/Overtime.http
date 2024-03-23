@@ -6,10 +6,10 @@ content-Type: application/json
 
 {
   
-  "EmployeeID": 1002,
-  "Hours": 8,
+  "EmployeeID": 2,
+  "Hours": 10,
   "Minutes": 0,
-  "Rate": 500.5   
+  "Rate": 500.0  
 }
 //get all posts
 ####
