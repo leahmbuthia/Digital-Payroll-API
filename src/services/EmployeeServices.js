@@ -152,7 +152,7 @@ export const deleteEmployeeService = async (EmployeeID) => {
 export const getEmployeeByIdService = async (EmployeeID) => {
     try {
         const result = await poolRequest()
-            .input('EmployeeID', sql.VarChar, EmployeeID)
+            .input('EmployeeID', sql.Int, EmployeeID)
             .query("SELECT * FROM Employee WHERE EmployeeID =@EmployeeID");
 
         // Check if any user is found

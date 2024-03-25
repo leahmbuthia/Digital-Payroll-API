@@ -5,7 +5,7 @@ content-Type: application/json
 
 {
    "StartTime": "2024-03-20T08:30:00Z",
-  "EndTime": "2024-03-20T09:30:00Z",
+  "EndTime": "2024-03-20T16:30:00Z",
   "Days": "Monday to Friday",
   "EmployeeID": 2
    
@@ -18,6 +18,10 @@ GET http://localhost:8800/api/schedule
 
 ### //get Users by id
 GET http://localhost:8800/api/schedule/2
+#  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZDNmM2IyOS02ZWYzLTQwMjEtODExZS1kMGI0YjRmMzM0YzYiLCJpYXQiOjE3MDgzNTMyMjAsImV4cCI6MTcwODQzOTYyMH0.he7WkRRaQWw9bQXZ-gpaG508faXe1QkW1DGSmERHtjQ
+
+### //get Users by id
+GET http://localhost:8800/api/schedule/user/2
 #  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZDNmM2IyOS02ZWYzLTQwMjEtODExZS1kMGI0YjRmMzM0YzYiLCJpYXQiOjE3MDgzNTMyMjAsImV4cCI6MTcwODQzOTYyMH0.he7WkRRaQWw9bQXZ-gpaG508faXe1QkW1DGSmERHtjQ
 
 ### //update users

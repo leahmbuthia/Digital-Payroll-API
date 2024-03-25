@@ -15,7 +15,7 @@ content-Type: application/json
 ####
 GET http://localhost:8800/api/attendances
 ### //get Group  by id
-GET http://localhost:8800/api/attendance/single/9
+GET http://localhost:8800/api/attendance/single/2
 # Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
 
 ### //update todo
@@ -32,4 +32,4 @@ Content-Type: application/json
 
 
 ### //delete todo
- DELETE http://localhost:8800/api/attendance/9
+ DELETE http://localhost:8800/api/attendance/4010

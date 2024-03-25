@@ -36,17 +36,22 @@ export const createAttendance = async (req, res) => {
             const newAttendance = { EmployeeID, CreatedDate, TimeIn, TimeOut };
             const result = await addAttendanceService(newAttendance);
             
-            if (result.message) {
-                sendServerError(res, result.message);
+            // Extract the AttendanceID from the result
+            const { AttendanceID } = result;
+
+            if (AttendanceID) {
+                // Include the AttendanceID in the response
+                res.status(201).json({ message: 'Attendance Created Successfully', AttendanceID });
             } else {
-                res.status(201).json({ message: 'Attendance Created Successfully' });
-                console.log('Request Body:', req.body);
+                // Handle the case where AttendanceID is missing from the result
+                return res.status(500).json({ message: 'Error creating attendance. AttendanceID not found in response.' });
             }
         }
     } catch (error) {
         sendServerError(res, error.message);
     }
 };
+
 
 
 // export const getAttendanceByEmployeeID = async (req, res) => {
@@ -90,8 +95,8 @@ export const updateAttendance = async (req, res) => {
         const existingAttendance = await getAttendanceByIDService(AttendanceID);
      
         if (!existingAttendance){
-            return res.status(400).json({
-                message: "Attendance found"
+            return res.status(404).json({
+                message: "Attendance Not  found"
             });
         }
         //update 
@@ -104,7 +109,7 @@ export const updateAttendance = async (req, res) => {
             });
          }else{
             return res.status(200).json({
-                message: 'Employee update successfully'
+                message: 'ClockedOut sucessfully '
             });
          }
         

@@ -10,24 +10,29 @@ export const addAttendanceService = async (attendance) => {
             .input('CreatedDate', sql.Date, attendance.CreatedDate)
             .input('TimeIn', sql.Time, attendance.TimeIn)
             .input('TimeOut', sql.Time, attendance.TimeOut)
-            .query(`INSERT INTO Attendance (EmployeeID, CreatedDate, TimeIn, TimeOut) VALUES (@EmployeeID, @CreatedDate, @TimeIn, @TimeOut)`);
+            .query(`
+              INSERT INTO Attendance (EmployeeID, CreatedDate, TimeIn, TimeOut) 
+              OUTPUT INSERTED.AttendanceID 
+              VALUES (@EmployeeID, @CreatedDate, @TimeIn, @TimeOut)
+            `);
 
-       return result;
+        return result.recordset[0]; // Return the inserted record, including AttendanceID
     } catch (error) {
         throw error;
     }
 };
 
+
 export const updateAttendanceService = async (AttendanceID, updatedAttendance) => {
     try {
-        const { EmployeeID, CreatedDate, TimeIn, TimeOut } = updatedAttendance;
+        const { TimeOut } = updatedAttendance;
         const result = await poolRequest()
             .input('AttendanceID', sql.Int, AttendanceID)
-            .input('EmployeeID', sql.Int, EmployeeID)
-            .input('CreatedDate', sql.DateTime, CreatedDate)
-            .input('TimeIn', sql.Time, TimeIn)  // Correct input type for TimeIn
-            .input('TimeOut', sql.Time, TimeOut) // Correct input type for TimeOut
-            .query("UPDATE Attendance SET EmployeeID = @EmployeeID, CreatedDate = @CreatedDate, TimeIn = @TimeIn, TimeOut = @TimeOut WHERE AttendanceID = @AttendanceID");
+            // .input('EmployeeID', sql.Int, EmployeeID)
+            // .input('CreatedDate', sql.DateTime, CreatedDate)
+            // .input('TimeIn', sql.Time, TimeIn)  
+            .input('TimeOut', sql.Time, TimeOut) 
+            .query("UPDATE Attendance SET TimeOut = @TimeOut WHERE AttendanceID = @AttendanceID");
 
         return result;
     } catch (error) {

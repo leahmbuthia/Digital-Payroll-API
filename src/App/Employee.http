@@ -4,11 +4,11 @@ POST http://localhost:8800/api/employee
 content-Type: application/json
 
 {
-  "FirstName": "Ndwgwa",
-  "LastName": "Demlate",
-  "Address": "254 Nairobi , Kenye",
+  "FirstName": "Gikate",
+  "LastName": "Kumaru",
+  "Address": "254 Nairobi , Kenya",
   "DOB": "1997-08-15",
-  "Email": "demlateydo@gufum.com",
+  "Email": "gikate9328@ikumaru.com",
   "Gender": "female",
   "Position": "Ict Officer",
   "PhoneNo": "+254 7098567",
@@ -46,7 +46,7 @@ Content-Type: application/json
 # Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZDNmM2IyOS02ZWYzLTQwMjEtODExZS1kMGI0YjRmMzM0YzYiLCJpYXQiOjE3MDgzNTMyMjAsImV4cCI6MTcwODQzOTYyMH0.he7WkRRaQWw9bQXZ-gpaG508faXe1QkW1DGSmERHtjQ
 
 {
-  "FirstName": "John",
+  "FirstName": "Daylan",
   "LastName": "Smith",
   "Address": "123 Main Street",
   "DOB": "1990-05-15",
@@ -62,4 +62,4 @@ Content-Type: application/json
      
 
 ### //delete Users
-DELETE http://localhost:8800/api/employee/3009
+DELETE http://localhost:8800/api/employee/5015

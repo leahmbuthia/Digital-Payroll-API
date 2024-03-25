@@ -1,4 +1,4 @@
-import { addScheduleService, deleteScheduleService, getScheduleByIDService, getScheduleService, updateScheduleService } from "../services/ScheduleServer.js"; // Update import
+import { addScheduleService, deleteScheduleService, getScheduleByEmployeeIDService, getScheduleByIDService, getScheduleService, updateScheduleService } from "../services/ScheduleServer.js"; // Update import
 import { checkIfValuesIsEmptyNullUndefined, orderData, paginate, sendCreated, sendNotFound, sendServerError } from "../helper/helperFunctions.js";
 
 export const getSchedule = async (req, res) => {
@@ -10,11 +10,45 @@ export const getSchedule = async (req, res) => {
         sendServerError(res, error);
     }
 };
+const calculateDuration = (startTime, endTime) => {
+    console.log("StartTime:", startTime);
+    console.log("EndTime:", endTime);
 
+    const start = new Date(`2000-01-01T${startTime}`);
+    const end = new Date(`2000-01-01T${endTime}`);
+    console.log("Start Date Object:", start);
+    console.log("End Date Object:", end);
+
+    const differenceInMillis = end - start;
+    console.log("Difference in Milliseconds:", differenceInMillis);
+
+    const hours = Math.floor(differenceInMillis / (1000 * 60 * 60));
+    console.log("Calculated Hours:", hours);
+
+    return `${hours} hours`;
+};
+
+// Controller to get schedule by EmployeeID
+export const getScheduleByEmployeeID = async (req, res) => {
+    try {
+        const EmployeeID = req.params.EmployeeID;
+        const schedule = await getScheduleByEmployeeIDService(EmployeeID); // Call the service function to fetch schedule details
+        
+        if (schedule) {
+            return res.status(200).json({ schedule });
+        } else {
+            return res.status(404).json({ message: 'Schedule for EmployeeID not found' }); // Return a 404 status if schedule is not found
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal Server Error' }); // Return a 500 status for any internal server error
+    }
+};
 export const createSchedule = async (req, res) => {
     try {
         const { EmployeeID, StartTime, EndTime, Days } = req.body;
-        const newSchedule = { EmployeeID, StartTime, EndTime, Days };
+        const duration = calculateDuration(StartTime, EndTime);
+        const newSchedule = { EmployeeID, StartTime, EndTime, Duration: duration, Days };
         const result = await addScheduleService(newSchedule);
         if (result.message) {
             sendServerError(res, result.message);
@@ -25,7 +59,6 @@ export const createSchedule = async (req, res) => {
         sendServerError(res, error.message);
     }
 };
-
 export const getScheduleById = async (req, res) => {
     try {
         const scheduleID = req.params.scheduleID;

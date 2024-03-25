@@ -64,6 +64,7 @@ CREATE TABLE AdvanceCash (
 );
 DROP TABLE AdvanceCash
 
+SELECT * FROM AdvanceCash
 -- Insert dummy data into the AdvanceCash table
 INSERT INTO AdvanceCash (EmployeeID, Date, Amount)
 VALUES
@@ -77,9 +78,11 @@ CREATE TABLE Schedule (
     EmployeeID INT,
     StartTime TIME,
     EndTime TIME,
+    Duration VARCHAR(50), -- Define Duration column with appropriate length
     Days VARCHAR(255),
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
+
 
 SELECT * FROM Schedule
 DROP TABLE Schedule
@@ -111,8 +114,11 @@ Select * from Position
 CREATE TABLE Payroll (
     PayrollID INT IDENTITY(1,1) PRIMARY KEY,
     EmployeeID INT,
+     NHIF DECIMAL(12,2),
+    NSSF DECIMAL(12,2),
+    PAYE DECIMAL(12,2),
+    TotalDeductions DECIMAL(12,2),
     GrossPay DECIMAL(10,2),
-    Deductions DECIMAL(10,2),
     NetPay DECIMAL(10,2),
     PayrollDate DATE,
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
@@ -157,3 +163,15 @@ VALUES
 VALUES 
     (1, '08:00:00', '17:00:00', 'Monday, Wednesday, Friday'),
     (2, '09:00:00', '18:00:00', 'Tuesday, Thursday')
+
+
+
+SELECT Payroll.*, E.*, P.*, A.*
+    FROM Payroll
+    JOIN
+    Employee E ON E.EmployeeID = Payroll.EmployeeID
+    JOIN
+    Position P ON E.EmployeeID = P.EmployeeID
+    JOIN
+    AdvanceCash A ON E.EmployeeID = A.EmployeeID
+    WHERE EmployeeID = 3;
