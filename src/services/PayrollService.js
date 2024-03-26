@@ -68,7 +68,7 @@ export const getPayrollByIdService = async (payrollID) => {
 // Function to update a payroll
 export const updatePayrollService = async (payrollID, updatedPayrollData) => {
     try {
-        const { EmployeeID, GrossPay, PayrollDate } = updatedPayrollData;
+        const { GrossPay, PayrollDate } = updatedPayrollData;
         
         // Calculate PAYE (assuming PAYE is 16% of GrossPay)
         const PAYE = GrossPay * 0.16;
@@ -78,16 +78,16 @@ export const updatePayrollService = async (payrollID, updatedPayrollData) => {
         const NetPay = GrossPay - TotalDeductions;
 
         const result = await poolRequest()
-            .input('PayrollID', sql.Int, payrollID)
-            .input('EmployeeID', sql.Int, EmployeeID)
+            // .input('PayrollID', sql.Int, payrollID)
+            // .input('EmployeeID', sql.Int, EmployeeID)
             .input('NHIF', sql.Decimal(12, 2), NHIF)
             .input('NSSF', sql.Decimal(12, 2), NSSF)
-            .input('PAYE', sql.Decimal(12, 2), PAYE)
-            .input('TotalDeductions', sql.Decimal(12, 2), TotalDeductions)
+            // .input('PAYE', sql.Decimal(12, 2), PAYE)
+            // .input('TotalDeductions', sql.Decimal(12, 2), TotalDeductions)
             .input('GrossPay', sql.Decimal(10, 2), GrossPay)
-            .input('NetPay', sql.Decimal(10, 2), NetPay)
+            // .input('NetPay', sql.Decimal(10, 2), NetPay)
             .input('PayrollDate', sql.Date, PayrollDate)
-            .query("UPDATE Payroll SET EmployeeID = @EmployeeID, NHIF = @NHIF, NSSF = @NSSF, PAYE = @PAYE, TotalDeductions = @TotalDeductions, GrossPay = @GrossPay, NetPay = @NetPay, PayrollDate = @PayrollDate WHERE PayrollID = @PayrollID;");
+            .query("UPDATE Payroll SET NHIF = @NHIF, NSSF = @NSSF,GrossPay=@GrossPay,   WHERE PayrollID = @PayrollID;");
 
         
         return result;

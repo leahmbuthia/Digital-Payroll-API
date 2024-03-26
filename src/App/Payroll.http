@@ -5,11 +5,11 @@ content-Type: application/json
 
 {
   
-  "EmployeeID": 2,
+  "EmployeeID": 1,
   "NHIF": 500.00,
   "NSSF": 1080.00,
-  "GrossPay": 60000.00,
-  "PayrollDate": "2024-04-05"
+  "GrossPay": 100000.00,
+  "PayrollDate": "2024-04-01"
     
 }
 //get all posts
@@ -23,17 +23,16 @@ GET http://localhost:8800/api/payrolls/user/2006
 # Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
 
 ### //update todo
-PUT http://localhost:8800/api/payrolls/3
+PUT http://localhost:8800/api/payrolls/1
 Content-Type: application/json
 # Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2IyM2ZiOS0yOWZlLTRhMjQtOWE1Mi00MGZhOWZhOTllOWEiLCJpYXQiOjE3MDgzNTE4ODUsImV4cCI6MTcwODQzODI4NX0.gKMMrEr5PUVIu1-oTXLZIJFa-s6Z5RGjauFrkQ4h9vw
 
 {
    
- "EmployeeID": 3,
-  "GrossPay": 100000,
-  "Deductions": 4000,
-  "NetPay": 80000,
-  "PayrollDate": "2024-03-10"
+  "NHIF": 500.00,
+  "NSSF": 1080.00,
+  "GrossPay": 120000.00,
+  "PayrollDate": "2024-03-28"
 }
 
 
