@@ -19,7 +19,7 @@ export const getEmployeeServices =async ()=>{
 export const addEmployeeService = async (employee) => {
     try {
         const result = await poolRequest()
-            // .input('EmployeeID', sql.VarChar, employee.EmployeeID)
+            .input('EmployeeID', sql.Int, employee.EmployeeID)
             .input('FirstName', sql.VarChar, employee.FirstName)
             .input('LastName', sql.VarChar, employee.LastName)
             .input('Address', sql.VarChar, employee.Address)
@@ -30,9 +30,9 @@ export const addEmployeeService = async (employee) => {
             .input('Position',sql.VarChar,employee.Position)
             .input('Password', sql.VarChar, employee.Password)
             .input('Schedule', sql.VarChar, employee.Schedule)
-            // .input('PhotoURL', sql.VarChar, employee.PhotoURL)
+            .input('PhotoUrl', sql.VarChar, employee.PhotoUrl)
             .input('Role', sql.VarChar, employee.Role)
-            .query("USE PAYROLLDB; INSERT INTO Employee (FirstName, LastName, Address, DOB, Email, PhoneNo, Gender, Position, Password, Schedule,  Role)  VALUES (@FirstName, @LastName, @Address, @DOB, @Email, @PhoneNo, @Gender, @Position, @Password, @Schedule, @Role)");
+            .query("USE PAYROLLDB; INSERT INTO Employee (FirstName, LastName, Address, DOB, Email, PhoneNo, Gender, Position, Password,PhotoUrl, Schedule,  Role)  VALUES (@FirstName, @LastName, @Address, @DOB, @Email, @PhoneNo, @Gender, @Position, @Password,@PhotoUrl, @Schedule, @Role)");
             
         return result;
     } catch (error) {
@@ -93,22 +93,23 @@ export const updateEmployeeService = async (EmployeeID,updatedEmployeeData ) => 
             Position,
             PhoneNo,
             Password,
+            PhotoUrl,
             Schedule,
             Role,
           }= updatedEmployeeData;
         const result = await poolRequest()
             .input('EmployeeID', sql.Int, EmployeeID)
-            .input('FirstName', sql.VarChar(50), FirstName)
-            .input('LastName', sql.VarChar(50), LastName)
-            .input('Address', sql.VarChar(100), Address)
+            .input('FirstName', sql.VarChar, FirstName)
+            .input('LastName', sql.VarChar, LastName)
+            .input('Address', sql.VarChar, Address)
             .input('DOB', sql.Date, new Date(DOB))
-            .input('Email', sql.VarChar(100), Email)
-            .input('PhoneNo', sql.VarChar(20), PhoneNo)
-            .input('Gender', sql.VarChar(10), Gender)
-            .input('Position', sql.VarChar(50), Position)
-            .input('Password', sql.VarChar(100), Password)
-            .input('Schedule', sql.VarChar(100), Schedule)
-            .input('Role', sql.VarChar(50), Role)
+            .input('PhoneNo', sql.VarChar, PhoneNo)
+            .input('Gender', sql.VarChar, Gender)
+            .input('Position', sql.VarChar, Position)
+            .input('Password', sql.VarChar, Password)
+            .input('PhotoUrl', sql.VarChar,PhotoUrl)
+            .input('Schedule', sql.VarChar, Schedule)
+            .input('Role', sql.VarChar, Role)
             .query(`
                 UPDATE Employee 
                 SET 
@@ -116,11 +117,11 @@ export const updateEmployeeService = async (EmployeeID,updatedEmployeeData ) => 
                     LastName = @LastName, 
                     Address = @Address, 
                     DOB = @DOB, 
-                    Email = @Email, 
                     PhoneNo = @PhoneNo, 
                     Gender = @Gender, 
                     Position = @Position, 
                     Password = @Password, 
+                    PhotoUrl= @PhotoUrl,
                     Schedule = @Schedule, 
                     Role = @Role
                 WHERE 

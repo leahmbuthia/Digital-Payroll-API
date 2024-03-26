@@ -4,18 +4,19 @@ POST http://localhost:8800/api/employee
 content-Type: application/json
 
 {
-  "FirstName": "Gikate",
-  "LastName": "Kumaru",
-  "Address": "254 Nairobi , Kenya",
-  "DOB": "1997-08-15",
-  "Email": "gikate9328@ikumaru.com",
-  "Gender": "female",
-  "Position": "Ict Officer",
-  "PhoneNo": "+254 7098567",
-  "Password": "Ndegwa123",
-  "Schedule": "Monday to Friday, 7:00 AM - 5:00 PM",
+  "FirstName": "Joy",
+  "LastName": "Wangui",
+  "Address": "123 Main Street",
+  "DOB": "1997-05-15",
+  "Email": "rewav30465@ikumaru.com",
+  "Gender": "Male",
+  "Position": "Manager",
+  "PhoneNo": "+1234567890",
+  "Password": "Joy123",
+  "Schedule": "Monday to Friday, 9:00 AM - 5:00 PM",
   "Role": "user"
 }
+ ### "PhotoUrl": "http://res.cloudinary.com/dmfjxrfmc/image/upload/v1711443685/m5z7q1s5uxuwafdknl4z.jpg",
 
 ### //login user
 POST http://localhost:8800/api/employee/auth/login
@@ -37,11 +38,11 @@ GET http://localhost:8800/send-mail
 GET http://localhost:8800/api/employee
 
 ### //get Employee by id
-GET http://localhost:8800/api/employee/1002
+GET http://localhost:8800/api/employee/2
 #  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZDNmM2IyOS02ZWYzLTQwMjEtODExZS1kMGI0YjRmMzM0YzYiLCJpYXQiOjE3MDgzNTMyMjAsImV4cCI6MTcwODQzOTYyMH0.he7WkRRaQWw9bQXZ-gpaG508faXe1QkW1DGSmERHtjQ
 
 ### //update users 
-PUT http://localhost:8800/api/employee/1002
+PUT http://localhost:8800/api/employee/1
 Content-Type: application/json
 # Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzZDNmM2IyOS02ZWYzLTQwMjEtODExZS1kMGI0YjRmMzM0YzYiLCJpYXQiOjE3MDgzNTMyMjAsImV4cCI6MTcwODQzOTYyMH0.he7WkRRaQWw9bQXZ-gpaG508faXe1QkW1DGSmERHtjQ
 
@@ -50,8 +51,7 @@ Content-Type: application/json
   "LastName": "Smith",
   "Address": "123 Main Street",
   "DOB": "1990-05-15",
-  "Email": "john.smith@example.com",
-  "Gender": "Male",
+  "Gender": "female",
   "Position": "Manager",
   "PhoneNo": "+1234567890",
   "Password": "password123",
@@ -62,4 +62,4 @@ Content-Type: application/json
      
 
 ### //delete Users
-DELETE http://localhost:8800/api/employee/5015
+DELETE http://localhost:8800/api/employee/1005

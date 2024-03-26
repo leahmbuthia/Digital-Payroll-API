@@ -12,14 +12,25 @@ CREATE TABLE Employee (
     Gender VARCHAR(50),
     Position VARCHAR(255),
 	Password VARCHAR(255),
+    PhotoUrl VARCHAR(255),
     Schedule VARCHAR(255) NOT NULL,
     Role VARCHAR(10)
 );
+USE PAYROLLDB; 
+ALTER TABLE Employee
+ADD PhotoUrl VARCHAR(255); -- Adjust the datatype and size according to your needs
+
  select * from Employee
  -- Employees table
 
  DROP TABLE Employee
-
+    CREATE TABLE Photo(
+        PhotoID INT IDENTITY(1,1) PRIMARY KEY,
+        EmployeeID INT,
+        PhotoUrl VARCHAR (255),
+        FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+    )
+DROP TABLE Photo
 CREATE TABLE Attendance (
     AttendanceID INT IDENTITY(1,1) PRIMARY KEY,
     EmployeeID INT,
@@ -123,6 +134,7 @@ CREATE TABLE Payroll (
     PayrollDate DATE,
     FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
+
 DROP TABLE Payroll
 SELECT * FROM Payroll
 

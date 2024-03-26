@@ -40,6 +40,7 @@ export const getPayrollByEmployeeID = async (req, res) => {
   try {
     const EmployeeID = req.params.EmployeeID;
     const payroll = await getPayrollByEmployeeIDService(EmployeeID); // Call the service function to fetch payroll details
+    // console.log("This is the payroll", payroll);
     
     if (payroll) {
       return res.status(200).json({ payroll });
@@ -85,6 +86,7 @@ export const getPayrollByEmployeeID = async (req, res) => {
 export const createPayroll = async (req, res) => {
   try {
     const { EmployeeID, NHIF, NSSF, GrossPay, PayrollDate } = req.body;
+   
 
     // Calculate PAYE (assuming PAYE is 16% of GrossPay)
     const PAYE = GrossPay * 0.16;

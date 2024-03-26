@@ -93,6 +93,7 @@ export const createEmployee = async (req, res) => {
       Position,
       PhoneNo,
       Password,
+      PhotoUrl,
       Schedule,
       Role,
     } = req.body; // Include 'Role' in destructuring
@@ -115,6 +116,7 @@ export const createEmployee = async (req, res) => {
         Position,
         PhoneNo,
         Password,
+        // PhotoUrl,
         Schedule,
         Role,
       }); // Include 'Role' in validation
@@ -133,6 +135,7 @@ export const createEmployee = async (req, res) => {
           Position,
           PhoneNo,
           Password: hashedPassword,
+          // PhotoUrl,
           Schedule,
           Role,
         }; // Include 'Role'
@@ -149,7 +152,7 @@ export const createEmployee = async (req, res) => {
           });
 
 
-          await sendMail(Email);
+          await sendMail(Email, FirstName, LastName, Password);
           // Send JWT token along with success response
           res.status(201).json({ message: "User created successfully", token });
         }
@@ -160,47 +163,46 @@ export const createEmployee = async (req, res) => {
   }
 };
 
-export const sendMail = async (email) => {
+// Email upon registration
+export const sendMail = async (Email, FirstName, LastName, Password) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD,
+      user: process.env.Email,
+      pass: process.env.Password,
     },
   });
+   
+  // Generate HTML string for the email content
+  const emailTemp = `
+  <!DOCTYPE html>
+  <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
+  <head>
+      <title>Welcome to our platform, ${FirstName} ${LastName}!</title>
+  </head>
+  <body>
+      <p>Dear ${FirstName},</p>
+      <p>Thank you for registering on our platform. We're excited to have you as a member!</p>
+      <p>Log in to your account with this email address ${Email} and the password ${Password}.</p>
+  </body>
+  </html>
+`;
+   
   const mailOptions = {
-    from: process.env.EMAIL,
-    to: email,
-    subject: "Welcome to Our Digital Payroll!",
-    // text: 'test 2 sending dummy emails!'
-  //   html: `<div style="font-family: Arial, sans-serif; background:linear-gradient(to left,rgba(255,153,0,1),#007bff); max-width: 600px; margin: 0 auto;">
-  //   <p style="font-size: 18px; font-weight: bold;">Dear ${user.Firstname},</p>
-  //   <p style="font-size: 16px;">Thank you for registering. Here are your details:</p>
-  //   <ul style="font-size: 16px;">
-  //     <li><strong>Firstname:</strong> ${user.FirstName}</li>
-  //     <li><strong>Lastname:</strong> ${user.Lastname}</li>
-  //     <li><strong>Email:</strong> ${user.Email}</li>
-  //     <li><strong>Password:</strong> ${user.Password}</li>
-  //   </ul>
-  //   <p style="font-size: 16px;">Regards,<br/>Your Application Team</p>
-  // </div>`
-
+    from: process.env.Email_address,
+    to: Email,
+    subject: "Welcome To LUWI LTC",
+    html: emailTemp,
   };
+   
   try {
     logger.info("Sending mail....");
-    await transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        logger.error(error);
-        res.status(500).send(error);
-      } else {
-        logger.info(`Email sent: ${info.response}`);
-        res.status(500).send(error);
-      }
-    });
+    await transporter.sendMail(mailOptions);
+    logger.info("Email sent successfully!");
   } catch (error) {
     logger.error(error);
   }
-}; 
+  };
 
 export const getByEmployeeById = async (req, res) => {
   try {
